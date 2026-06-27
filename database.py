@@ -218,6 +218,99 @@ class DDTechDB:
                 })
         return chairs
 
+    def list_gaming_chairs(self, query=None, only_in_stock=False, limit=250):
+        sql = """
+            WITH latest_prices AS (
+                SELECT
+                    chair_id,
+                    price,
+                    in_stock,
+                    scraped_at,
+                    ROW_NUMBER() OVER (PARTITION BY chair_id ORDER BY scraped_at DESC) AS rn
+                FROM gaming_chair_price_history
+            )
+            SELECT
+                gc.id,
+                gc.name,
+                gc.url,
+                gc.image_url,
+                gc.specs_json,
+                gc.last_scraped,
+                lp.price,
+                lp.in_stock,
+                lp.scraped_at
+            FROM gaming_chairs gc
+            LEFT JOIN latest_prices lp ON gc.id = lp.chair_id AND lp.rn = 1
+            WHERE 1 = 1
+        """
+        params = []
+
+        if query:
+            sql += " AND (gc.name LIKE ? OR gc.specs_json LIKE ?)"
+            like_query = f"%{query}%"
+            params.extend([like_query, like_query])
+
+        if only_in_stock:
+            sql += " AND COALESCE(lp.in_stock, 0) = 1"
+
+        sql += " ORDER BY COALESCE(lp.scraped_at, gc.last_scraped) DESC, gc.name ASC LIMIT ?"
+        params.append(limit)
+
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(sql, params)
+            return [self._map_chair_row(row) for row in cursor.fetchall()]
+
+    def get_gaming_chair(self, chair_id):
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                WITH latest_prices AS (
+                    SELECT
+                        chair_id,
+                        price,
+                        in_stock,
+                        scraped_at,
+                        ROW_NUMBER() OVER (PARTITION BY chair_id ORDER BY scraped_at DESC) AS rn
+                    FROM gaming_chair_price_history
+                )
+                SELECT
+                    gc.id,
+                    gc.name,
+                    gc.url,
+                    gc.image_url,
+                    gc.specs_json,
+                    gc.last_scraped,
+                    lp.price,
+                    lp.in_stock,
+                    lp.scraped_at
+                FROM gaming_chairs gc
+                LEFT JOIN latest_prices lp ON gc.id = lp.chair_id AND lp.rn = 1
+                WHERE gc.id = ?
+                """,
+                (chair_id,),
+            )
+            row = cursor.fetchone()
+            return self._map_chair_row(row) if row else None
+
+    def get_latest_gaming_chairs_for_api(self, only_in_stock=False, limit=100):
+        return self.list_gaming_chairs(query=None, only_in_stock=only_in_stock, limit=limit)
+
+    def get_price_history_for_gaming_chair(self, chair_id):
+        with self._get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                """
+                SELECT price, in_stock, scraped_at
+                FROM gaming_chair_price_history
+                WHERE chair_id = ?
+                ORDER BY scraped_at ASC
+                """,
+                (chair_id,),
+            )
+            return [dict(row) for row in cursor.fetchall()]
+
     def save_component(self, comp_id, category, name, url, image_url, specs_dict):
         """
         Inserta o actualiza un componente. 
@@ -749,4 +842,19 @@ class DDTechDB:
             "is_locked": bool(row["is_locked"]),
             "notes": row["notes"],
             "selected_at": row["selected_at"],
+        }
+
+    def _map_chair_row(self, row):
+        if not row:
+            return None
+        return {
+            "id": row["id"],
+            "name": row["name"],
+            "url": row["url"],
+            "image_url": row["image_url"],
+            "specifications": json.loads(row["specs_json"]) if row["specs_json"] else {},
+            "price": row["price"],
+            "in_stock": bool(row["in_stock"]) if row["in_stock"] is not None else None,
+            "scraped_at": row["scraped_at"],
+            "last_scraped": row["last_scraped"],
         }

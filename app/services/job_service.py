@@ -57,7 +57,7 @@ class JobService:
 
     def latest_scraper_status(self):
         with self._lock:
-            scraper_jobs = [job for job in self._jobs.values() if job["type"] == "scraper.update"]
+            scraper_jobs = [job for job in self._jobs.values() if job["type"].startswith("scraper.")]
             if not scraper_jobs:
                 return "Idle"
             latest = max(scraper_jobs, key=lambda item: item["createdAt"])

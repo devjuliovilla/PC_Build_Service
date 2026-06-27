@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8000
+@query = corsair
+
+GET {{baseUrl}}/chairs/search?q={{query}}

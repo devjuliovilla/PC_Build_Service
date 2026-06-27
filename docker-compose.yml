@@ -1,11 +1,16 @@
+name: pc_build_service
+
 services:
-  ddtech-api:
+  pc-build-service:
+    image: pc_build_service:latest
+    container_name: pc_build_service
     build: .
     ports:
       - "8000:8000"
     environment:
       DATABASE_PATH: /data/ddtech.db
       EXPORT_JSON_PATH: /data/ddtech_components.json
+      EXPORT_CHAIRS_JSON_PATH: /data/ddtech_gaming_chairs.json
       HEADLESS: "true"
       PLAYWRIGHT_TIMEOUT: "45000"
       LOG_LEVEL: INFO

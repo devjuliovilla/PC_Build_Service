@@ -1,6 +1,6 @@
-# DDTech API
+# PC_Build_Service
 
-DDTech API es una aplicacion en Python que evoluciono de un scraper ejecutable por consola a una **API REST basada en FastAPI**, preparada para ejecutarse localmente o desplegarse con Docker.
+PC_Build_Service es una aplicacion en Python que evoluciono de un scraper ejecutable por consola a una **API REST basada en FastAPI**, preparada para ejecutarse localmente o desplegarse con Docker.
 
 El proyecto conserva el scraper actual de **DDTech.mx**, mantiene SQLite como mecanismo de persistencia y expone el sistema mediante endpoints HTTP para consulta de catalogo, historial de precios, builds persistentes y ejecucion asincrona del scraper.
 
@@ -9,12 +9,14 @@ El proyecto conserva el scraper actual de **DDTech.mx**, mantiene SQLite como me
 La API permite:
 
 - consultar el catalogo de componentes almacenado en SQLite
+- consultar el catalogo de sillas gamer almacenado en SQLite
 - consultar historial de precios por componente
+- consultar historial de precios por silla gamer
 - administrar builds persistentes y sus slots
 - registrar decisiones sobre componentes elegidos en una build
 - generar snapshots de una build y comparar contra precios mas recientes
 - ejecutar el scraper por HTTP sin bloquear la solicitud
-- consultar el estado de jobs y del servicio
+- consultar el estado de jobs por `jobId` y el estado general del servicio
 
 ## Caracteristicas Principales
 
@@ -103,6 +105,7 @@ Estas variables controlan el comportamiento del servicio:
 - `PLAYWRIGHT_TIMEOUT`: timeout en milisegundos para Playwright
 - `LOG_LEVEL`: nivel de logging
 - `EXPORT_JSON_PATH`: ruta del JSON exportado por el scraper
+- `EXPORT_CHAIRS_JSON_PATH`: ruta del JSON exportado por el scraper de sillas
 - `HOST`: host de arranque para uvicorn
 - `PORT`: puerto de arranque para uvicorn
 - `APP_VERSION`: version expuesta por la API
@@ -112,6 +115,7 @@ Valores tipicos:
 ```env
 DATABASE_PATH=/data/ddtech.db
 EXPORT_JSON_PATH=/data/ddtech_components.json
+EXPORT_CHAIRS_JSON_PATH=/data/ddtech_gaming_chairs.json
 HEADLESS=true
 PLAYWRIGHT_TIMEOUT=45000
 LOG_LEVEL=INFO
@@ -139,7 +143,7 @@ La API quedara disponible en:
 
 El proyecto incluye documentacion automatica:
 
-- `GET /` redirige a Swagger UI
+- `GET /` redirige a Swagger UI de `PC_Build_Service`
 - `GET /docs` abre Swagger UI
 - `GET /redoc` abre ReDoc
 - `GET /openapi.json` devuelve el esquema OpenAPI
@@ -161,6 +165,11 @@ El proyecto incluye documentacion automatica:
 - `GET /components/search?q=`
 - `GET /components/latest`
 - `GET /price-history/{componentId}`
+- `GET /chairs`
+- `GET /chairs/{chairId}`
+- `GET /chairs/search?q=`
+- `GET /chairs/latest`
+- `GET /chair-price-history/{chairId}`
 
 ### Builds
 
@@ -181,8 +190,9 @@ El proyecto incluye documentacion automatica:
 ### Scraper
 
 - `POST /scraper/update`
+- `POST /scraper/chairs/update`
 
-`POST /scraper/update` dispara un job asincrono. La solicitud responde de inmediato con un `jobId`, y su progreso puede consultarse despues con `GET /jobs/{jobId}`.
+`POST /scraper/update` y `POST /scraper/chairs/update` disparan jobs asincronos. La solicitud responde de inmediato con `202 Accepted` y un `jobId`, y su progreso puede consultarse despues con `GET /jobs/{jobId}`.
 
 ## Health Check
 
@@ -202,7 +212,7 @@ Respuesta esperada:
 
 ## Docker
 
-El proyecto incluye dockerizacion completa mediante:
+PC_Build_Service incluye dockerizacion completa mediante:
 
 - `Dockerfile`
 - `docker-compose.yml`
@@ -253,13 +263,15 @@ volumes:
 Esto permite que:
 
 - la base SQLite viva fuera del contenedor
-- el archivo JSON exportado viva fuera del contenedor
+- el archivo JSON exportado de componentes viva fuera del contenedor
+- el archivo JSON exportado de sillas viva fuera del contenedor
 - no se pierda informacion al recrear la imagen o el contenedor
 
 Archivos tipicos persistidos:
 
 - `./data/ddtech.db`
 - `./data/ddtech_components.json`
+- `./data/ddtech_gaming_chairs.json`
 
 ## Logging
 
@@ -286,6 +298,7 @@ http/
   status/
   categories/
   components/
+  chairs/
   history/
   builds/
   scraper/
@@ -299,9 +312,13 @@ Ejemplos de archivos disponibles:
 - `http/status/get-status.rest`
 - `http/components/get-components.rest`
 - `http/components/search-components.rest`
+- `http/chairs/get-chairs.rest`
+- `http/chairs/search-chairs.rest`
+- `http/history/get-chair-price-history.rest`
 - `http/builds/post-builds.rest`
 - `http/builds/post-build-slot-decision.rest`
 - `http/scraper/post-scraper-update.rest`
+- `http/scraper/post-scraper-chairs-update.rest`
 - `http/jobs/get-job-by-id.rest`
 
 Estos archivos estan pensados para herramientas compatibles con archivos `.rest`, por ejemplo extensiones de cliente REST en VS Code.
@@ -314,8 +331,10 @@ Estos archivos estan pensados para herramientas compatibles con archivos `.rest`
 4. Verificar `GET /status`
 5. Crear una build con `POST /builds`
 6. Probar consultas de componentes
-7. Lanzar un scraping de prueba con `POST /scraper/update`
-8. Consultar el job generado con `GET /jobs/{jobId}`
+7. Probar consultas de sillas con `GET /chairs`
+8. Lanzar un scraping de prueba con `POST /scraper/update`
+9. Consultar el job generado con `GET /jobs/{jobId}`
+10. Si quieres actualizar sillas, lanzar `POST /scraper/chairs/update` y consultar tambien su `jobId`
 
 ## Compatibilidad Con El CLI Existente
 

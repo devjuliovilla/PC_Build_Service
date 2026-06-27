@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8000
+@chairId = sample-chair-id
+
+GET {{baseUrl}}/chairs/{{chairId}}

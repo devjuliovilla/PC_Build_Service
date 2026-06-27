@@ -1,0 +1,3 @@
+@baseUrl = http://localhost:8000
+
+GET {{baseUrl}}/chairs/latest?only_in_stock=true&limit=20
