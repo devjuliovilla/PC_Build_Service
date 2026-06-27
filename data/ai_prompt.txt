@@ -1,0 +1,1515 @@
+--- SYSTEM PROMPT ---
+Eres un experto Ingeniero de Hardware y un asistente especializado en armar configuraciones de computadoras (PC Building Expert).
+Tu misión es armar la MEJOR configuración de PC posible utilizando EXCLUSIVAMENTE la lista de componentes reales en stock suministrada en el JSON.
+Debes apegarte ESTRICTAMENTE a las siguientes reglas de compatibilidad de hardware:
+1. PROCESADOR Y TARJETA MADRE: Deben usar exactamente el mismo socket (ej. Socket AM4 con placa AM4, Socket AM5 con placa AM5, LGA1700 con placa LGA1700).
+2. PLACA MADRE Y MEMORIA RAM: El tipo de memoria de la RAM (DDR4 o DDR5) debe ser idéntico al tipo de memoria que soporta la tarjeta madre.
+3. FUENTE DE PODER: Debe tener suficiente potencia en Watts para alimentar la tarjeta de video (GPU) y el procesador elegidos. Suma el TDP estimado y añade un 30% de margen de seguridad.
+4. GABINETE: Debe tener un factor de forma que admita la tarjeta madre (ej. Un gabinete Micro-ATX no puede llevar una placa ATX).
+5. COMPONENTES REQUERIDOS: Para que una PC encienda y funcione, debes incluir de forma obligatoria:
+   - 1 Procesador
+   - 1 Enfriamiento (Disipador de Aire o Enfriamiento Líquido, a menos que el procesador incluya su propio disipador)
+   - 1 Tarjeta Madre
+   - Al menos 1 módulo de Memoria RAM (lo ideal son 2 para Dual Channel si el presupuesto lo permite)
+   - 1 Unidad de Almacenamiento (SSD preferiblemente)
+   - 1 Fuente de Poder
+   - 1 Gabinete
+   - 1 Tarjeta de Video Dedicada (OBLIGATORIA a menos que el procesador seleccionado tenga gráficos integrados y el presupuesto sea muy bajo).
+
+
+--- USER PROMPT ---
+ARMA UNA CONFIGURACIÓN DE PC CON LOS SIGUIENTES REQUISITOS DEL USUARIO:
+- Presupuesto Máximo: $36,000.00 MXN (No puedes pasarte de esta cantidad bajo ninguna circunstancia, y debes tratar de optimizar cada peso).
+- Uso Principal de la PC: Estación de trabajo pesada de desarrollo de software. Debe poder ejecutar simultáneamente múltiples instancias de Visual Studio, SQL Server Management Studio, contenedores de Docker, múltiples navegadores (Firefox, Chrome, Edge) con pestañas pesadas, consolas de comandos, Opencode y ejecución de Modelos de IA Locales (Ollama, LLaMA) que requieren aceleración por hardware CUDA. Se busca una RTX 5060 Ti de 16GB VRAM y 32GB de RAM DDR5 con posibilidad de expandir a 64GB en el futuro.
+- Preferencia de Marcas: Procesador AMD Ryzen (priorizar sockets AM5 serie 7000 o 9000 de 8 a 12 núcleos) y Tarjeta de Video NVIDIA GeForce RTX (OBLIGATORIA con mínimo 12GB de VRAM para CUDA e IA local).
+
+LISTA DE COMPONENTES DISPONIBLES EN DDTECH (JSON):
+```json
+[
+ {
+  "id": "gabinete-stylos-secai-mini-tower-micro-atx-y-mini-itx-fuente-de-poder-550w-incluida-usb-3-0-diseno-compacto-stgasc1b",
+  "cat": "Disipadores CPU",
+  "nom": "Gabinete STYLOS SECAI / Mini Tower / Micro-ATX y Mini-ITX / Fuente de Poder 550W Incluida / USB 3.0 / Diseño Compacto / STGASC1B",
+  "p": 469.0,
+  "url": "https://ddtech.mx/producto/gabinete-stylos-secai-mini-tower-micro-atx-y-mini-itx-fuente-de-poder-550w-incluida-usb-3-0-diseno-compacto-stgasc1b?id=19411",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "gabinete-stylos-keelan-slim-slim-tower-micro-atx-y-mini-itx-fuente-550w-incluida-usb-3-0-diseno-compacto-stgakl1b",
+  "cat": "Disipadores CPU",
+  "nom": "Gabinete STYLOS Keelan Slim / Slim Tower / Micro-ATX y Mini-ITX / Fuente 550W Incluida / USB 3.0 / Diseño Compacto / STGAKL1B",
+  "p": 549.0,
+  "url": "https://ddtech.mx/producto/gabinete-stylos-keelan-slim-slim-tower-micro-atx-y-mini-itx-fuente-550w-incluida-usb-3-0-diseno-compacto-stgakl1b?id=19412",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "enfriamiento-liquido-cooler-master-masterliquid-core-nex-digital-360-black-argb-display-digital-360mm-intel-amd-mlx-d36m-a18pa-rd",
+  "cat": "Disipadores CPU",
+  "nom": "Enfriamiento Líquido Cooler Master MasterLiquid Core NEX Digital 360 Black ARGB / Display Digital / 360mm / Intel & AMD / MLX-D36M-A18PA-RD",
+  "p": 1199.0,
+  "url": "https://ddtech.mx/producto/enfriamiento-liquido-cooler-master-masterliquid-core-nex-digital-360-black-argb-display-digital-360mm-intel-amd-mlx-d36m-a18pa-rd?id=19404",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Enfriamiento",
+   "tipo_enfriamiento": "Líquido",
+   "tamano_radiador": "360mm"
+  }
+ },
+ {
+  "id": "gabinete-xzeal-xz150-mid-tower-cristal-templado-4-ventiladores-argb-incluidos-compatible-atx-y-micro-atx-radiador-360mm-negro-xzgaxt1b",
+  "cat": "Disipadores CPU",
+  "nom": "Gabinete XZEAL XZ150 / Mid Tower / Cristal Templado / 4 Ventiladores ARGB Incluidos / Compatible ATX y Micro-ATX / Radiador 360mm / Negro / XZGAXT1B",
+  "p": 1269.0,
+  "url": "https://ddtech.mx/producto/gabinete-xzeal-xz150-mid-tower-cristal-templado-4-ventiladores-argb-incluidos-compatible-atx-y-micro-atx-radiador-360mm-negro-xzgaxt1b?id=19415",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "gabinete-xzeal-xz150-mid-tower-cristal-templado-4-ventiladores-argb-incluidos-compatible-atx-y-micro-atx-radiador-360mm-blanco-xzgaxt1w",
+  "cat": "Disipadores CPU",
+  "nom": "Gabinete XZEAL XZ150 / Mid Tower / Cristal Templado / 4 Ventiladores ARGB Incluidos / Compatible ATX y Micro-ATX / Radiador 360mm / Blanco / XZGAXT1W",
+  "p": 1299.0,
+  "url": "https://ddtech.mx/producto/gabinete-xzeal-xz150-mid-tower-cristal-templado-4-ventiladores-argb-incluidos-compatible-atx-y-micro-atx-radiador-360mm-blanco-xzgaxt1w?id=19414",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "gabinete-xzeal-xz160-full-tower-cristal-templado-4-ventiladores-argb-incluidos-soporte-e-atx-usb-c-negro-xzgaex1b",
+  "cat": "Disipadores CPU",
+  "nom": "Gabinete XZEAL XZ160 / Full Tower / Cristal Templado / 4 Ventiladores ARGB Incluidos / Soporte E-ATX / USB-C / Negro / XZGAEX1B",
+  "p": 1349.0,
+  "url": "https://ddtech.mx/producto/gabinete-xzeal-xz160-full-tower-cristal-templado-4-ventiladores-argb-incluidos-soporte-e-atx-usb-c-negro-xzgaex1b?id=19408",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "fuente-de-poder-xzeal-xz1000m-1000w-80-plus-gold-full-modular-atx-pcie-5-1-ventilador-140mm-xzps1000mb",
+  "cat": "Disipadores CPU",
+  "nom": "Fuente de Poder XZEAL XZ1000M 1000W / 80 Plus Gold / Full Modular / ATX / PCIe 5.1 / Ventilador 140mm / XZPS1000MB",
+  "p": 1699.0,
+  "url": "https://ddtech.mx/producto/fuente-de-poder-xzeal-xz1000m-1000w-80-plus-gold-full-modular-atx-pcie-5-1-ventilador-140mm-xzps1000mb?id=19406",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "gabinete-apnx-v1-mid-tower-cristal-templado-curvo-soporte-e-atx-gpu-hasta-395mm-radiador-360mm-blanco-v1-wt-v1",
+  "cat": "Disipadores CPU",
+  "nom": "Gabinete APNX V1 / Mid Tower / Cristal Templado Curvo / Soporte E-ATX / GPU hasta 395mm / Radiador 360mm / Blanco / V1-WT-V1",
+  "p": 1799.0,
+  "url": "https://ddtech.mx/producto/gabinete-apnx-v1-mid-tower-cristal-templado-curvo-soporte-e-atx-gpu-hasta-395mm-radiador-360mm-blanco-v1-wt-v1?id=19402",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "monitor-gamer-gigabyte-gs27fc-27-180hz-1080p-1920x1080-va-1500r-1-ms-listo-para-hdr-freesync-premium-1-puerto-de-pantalla-1-4-gs27fc",
+  "cat": "Disipadores CPU",
+  "nom": "Monitor Gamer GIGABYTE GS27FC / 27” / 180Hz / 1080P / 1920x1080 / VA /1500R / 1 ms / Listo para HDR / FreeSync Premium / 1 puerto de pantalla 1.4 / GS27FC",
+  "p": 2499.0,
+  "url": "https://ddtech.mx/producto/monitor-gamer-gigabyte-gs27fc-27-180hz-1080p-1920x1080-va-1500r-1-ms-listo-para-hdr-freesync-premium-1-puerto-de-pantalla-1-4-gs27fc?id=16164",
+  "specs": {
+   "marca": "Gigabyte",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "monitor-gamer-xpg-rift-r27q8-27-2560x1440-180hz-hdmi-displayport-negro-rift-r27q8-bk-c-mx-ips",
+  "cat": "Disipadores CPU",
+  "nom": "Monitor Gamer XPG RIFT R27Q8 / 27 /2560x1440 / 180Hz / HDMI/DisplayPort / Negro / RIFT R27Q8 BK C MX / IPS",
+  "p": 3299.0,
+  "url": "https://ddtech.mx/producto/monitor-gamer-xpg-rift-r27q8-27-2560x1440-180hz-hdmi-displayport-negro-rift-r27q8-bk-c-mx-ips?id=18530",
+  "specs": {
+   "marca": "XPG",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "memoria-ram-teamgroup-t-force-vulcan-ddr5-16gb-5600mhz-cl36-rojo-intel-xmp-3-0-non-ecc-flrd516g5600hc36b01",
+  "cat": "Disipadores CPU",
+  "nom": "Memoria RAM TEAMGROUP T-Force Vulcan DDR5 / 16GB / 5600MHz / CL36 / Rojo / Intel XMP 3.0 / Non-ECC / FLRD516G5600HC36B01",
+  "p": 3599.0,
+  "url": "https://ddtech.mx/producto/memoria-ram-teamgroup-t-force-vulcan-ddr5-16gb-5600mhz-cl36-rojo-intel-xmp-3-0-non-ecc-flrd516g5600hc36b01?id=19421",
+  "specs": {
+   "marca": "Intel",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "memoria-ram-adata-xpg-lancer-blade-rgb-ddr5-16gb-5600mt-s-cl46-negro-ax5u5600c4616g-slabrbk",
+  "cat": "Disipadores CPU",
+  "nom": "Memoria RAM ADATA XPG Lancer Blade RGB DDR5 / 16GB / 5600MT/s / CL46 / Negro / AX5U5600C4616G-SLABRBK",
+  "p": 3899.0,
+  "url": "https://ddtech.mx/producto/memoria-ram-adata-xpg-lancer-blade-rgb-ddr5-16gb-5600mt-s-cl46-negro-ax5u5600c4616g-slabrbk?id=19422",
+  "specs": {
+   "marca": "XPG",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "memoria-ram-kingston-fury-beast-rgb-ddr5-16gb-6000mt-s-cl30-blanco-kf560c30bwea-16",
+  "cat": "Disipadores CPU",
+  "nom": "Memoria RAM Kingston FURY Beast RGB DDR5 / 16GB / 6000MT/s / CL30 / Blanco / KF560C30BWEA-16",
+  "p": 4299.0,
+  "url": "https://ddtech.mx/producto/memoria-ram-kingston-fury-beast-rgb-ddr5-16gb-6000mt-s-cl30-blanco-kf560c30bwea-16?id=19418",
+  "specs": {
+   "marca": "Kingston",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-7-9800x3d-am5-up-to-5-2-ghz-8-core-96mb-l3-cache-amd-radeon-graphics-requiere-disipador-100-100001084wof",
+  "cat": "Disipadores CPU",
+  "nom": "Procesador AMD Ryzen 7 9800X3D / AM5 / Up to 5.2 GHz / 8-Core / 96MB L3 Cache / AMD Radeon™ Graphics / Requiere Disipador / 100-100001084WOF",
+  "p": 8999.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-7-9800x3d-am5-up-to-5-2-ghz-8-core-96mb-l3-cache-amd-radeon-graphics-requiere-disipador-100-100001084wof?id=16282",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Enfriamiento",
+   "tipo_enfriamiento": "Por Aire"
+  }
+ },
+ {
+  "id": "memoria-ram-kingston-fury-renegade-rgb-ddr5-48gb-6000mt-s-cl32-negro-plata-kf560c32rsa-48",
+  "cat": "Disipadores CPU",
+  "nom": "Memoria RAM Kingston FURY Renegade RGB DDR5 / 48GB / 6000MT/s / CL32 / Negro-Plata / KF560C32RSA-48",
+  "p": 10999.0,
+  "url": "https://ddtech.mx/producto/memoria-ram-kingston-fury-renegade-rgb-ddr5-48gb-6000mt-s-cl32-negro-plata-kf560c32rsa-48?id=19419",
+  "specs": {
+   "marca": "Kingston",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-de-video-asus-prime-rx-9070-xt-oc-edition-amd-radeon-16gb-256-bit-gddr6-pci-express-5-0-prime-rx9070xt-o16g-gratis-juego-crimson-desert",
+  "cat": "Disipadores CPU",
+  "nom": "Tarjeta de Video ASUS PRIME RX 9070 XT OC Edition / AMD Radeon / 16GB / 256-bit GDDR6 / PCI Express 5.0 / PRIME-RX9070XT-O16G",
+  "p": 12999.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-asus-prime-rx-9070-xt-oc-edition-amd-radeon-16gb-256-bit-gddr6-pci-express-5-0-prime-rx9070xt-o16g-gratis-juego-crimson-desert?id=16824",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "memoria-ram-kingston-fury-beast-ddr5-64gb-416gb-5600mt-s-cl40-blanco-udimm-kf556c40bwk4-64",
+  "cat": "Disipadores CPU",
+  "nom": "Memoria RAM Kingston FURY Beast DDR5 / 64GB (4×16GB) / 5600MT/s / CL40 / Blanco / UDIMM / KF556C40BWK4-64",
+  "p": 13999.0,
+  "url": "https://ddtech.mx/producto/memoria-ram-kingston-fury-beast-ddr5-64gb-416gb-5600mt-s-cl40-blanco-udimm-kf556c40bwk4-64?id=19417",
+  "specs": {
+   "marca": "Kingston",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "laptop-msi-thin-a15-b7ve-466us-15-6-fhd-144hz-ryzen-5-7535hs-rtx-4050-8gb-ddr5-512gb-ssd-thin-a15-b7ve-466us",
+  "cat": "Disipadores CPU",
+  "nom": "Laptop MSI Thin A15 B7VE-466US / 15.6\" / FHD / 144Hz / Ryzen 5 7535HS / RTX 4050 / 8GB DDR5 / 512GB SSD / THIN A15 B7VE-466US",
+  "p": 14999.0,
+  "url": "https://ddtech.mx/producto/laptop-msi-thin-a15-b7ve-466us-15-6-fhd-144hz-ryzen-5-7535hs-rtx-4050-8gb-ddr5-512gb-ssd-thin-a15-b7ve-466us?id=19353",
+  "specs": {
+   "marca": "MSI",
+   "especificaciones_encontradas": true,
+   "tipo": "Almacenamiento",
+   "formato": "SSD SATA 2.5",
+   "capacidad": "8GB"
+  }
+ },
+ {
+  "id": "computadora-pride-gaming-white-wolf-v6-nvidia-geforce-rtx-5060-8g-amd-ryzen-5-5500-16gb-ddr4-ssd-m-2-1tb-700w-80-bronze-incluye-wifi-y-bt",
+  "cat": "Disipadores CPU",
+  "nom": "Computadora PRIDE GAMING WHITE WOLF V6 / NVIDIA GeForce RTX 5060 8G / AMD RYZEN 5 5500 / 16GB DDR4 / SSD M.2 1TB / 700W 80+ BRONZE / INCLUYE WIFI Y BT",
+  "p": 17999.0,
+  "url": "https://ddtech.mx/producto/computadora-pride-gaming-white-wolf-v6-nvidia-geforce-rtx-5060-8g-amd-ryzen-5-5500-16gb-ddr4-ssd-m-2-1tb-700w-80-bronze-incluye-wifi-y-bt?id=19012",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Almacenamiento",
+   "formato": "SSD M.2 NVMe",
+   "capacidad": "16GB"
+  }
+ },
+ {
+  "id": "laptop-gamer-gigabyte-aero-x16-copilot-eg61h-amd-ryzen-ai-9-hx-370-nvidia-geforce-rtx-5070-windows-11-ssd-m-2-1tb-32gb-ram-ddr5-windows-11-ingles-eg61h-color-gris-gratis-juego-007-hotsale",
+  "cat": "Disipadores CPU",
+  "nom": "Laptop Gamer GIGABYTE AERO X16 COPILOT+ EG61H / AMD Ryzen AI 9 HX 370 / NVIDIA GeForce RTX 5070 / Windows 11 / SSD M.2 1TB / 32GB RAM DDR5 / Windows 11 / Ingles / EG61H / Color gris / Gratis Juego 007",
+  "p": 37999.0,
+  "url": "https://ddtech.mx/producto/laptop-gamer-gigabyte-aero-x16-copilot-eg61h-amd-ryzen-ai-9-hx-370-nvidia-geforce-rtx-5070-windows-11-ssd-m-2-1tb-32gb-ram-ddr5-windows-11-ingles-eg61h-color-gris-gratis-juego-007-hotsale?id=17623",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Almacenamiento",
+   "formato": "SSD M.2 NVMe",
+   "capacidad": "1TB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-nvidia-geforce-gt-710-2gd3-lp-2gb-pci-express-x8-2-0-912-v809-2220",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de video NVIDIA GeForce GT 710 2GD3 LP / 2GB / PCI Express x8 2.0 / 912-V809-2220",
+  "p": 969.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-nvidia-geforce-gt-710-2gd3-lp-2gb-pci-express-x8-2-0-912-v809-2220?id=14927",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "vram": "2GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-nvidia-geforce-rtx-3060-12gb-gddr6-asus-phoenix-lhr-v2-ph-rtx3060-12g-v2-3-anos-de-garantia-nacional-pre-fin",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video Nvidia GeForce RTX 3060 / 12GB GDDR6 / Asus PHOENIX LHR V2 / PH-RTX3060-12G-V2 / 3 AÑOS DE GARANTIA NACIONAL / PRE-FIN",
+  "p": 4899.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-nvidia-geforce-rtx-3060-12gb-gddr6-asus-phoenix-lhr-v2-ph-rtx3060-12g-v2-3-anos-de-garantia-nacional-pre-fin?id=10773",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX3060",
+   "vram": "12GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-asus-nvidia-geforce-rtx-5050-oc-edition-8gb-128-bit-gddr6-pci-express-5-0-dual-rtx5050-o8g-buen-fin-abf",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video ASUS NVIDIA GeForce RTX 5050 OC Edition / 8GB / 128-bit GDDR6 / PCI Express 5.0 / DUAL-RTX5050-O8G / ABF",
+  "p": 6199.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-asus-nvidia-geforce-rtx-5050-oc-edition-8gb-128-bit-gddr6-pci-express-5-0-dual-rtx5050-o8g-buen-fin-abf?id=17732",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX5050",
+   "vram": "8GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-msi-nvidia-geforce-rtx-5050-gaming-8gb-gddr6-128-bit-pci-express-gen-5-912-v538-019",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video MSI NVIDIA GeForce RTX 5050 GAMING / 8GB GDDR6 / 128-bit / PCI Express Gen 5 / 912-V538-019",
+  "p": 6699.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-msi-nvidia-geforce-rtx-5050-gaming-8gb-gddr6-128-bit-pci-express-gen-5-912-v538-019?id=19145",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX5050",
+   "vram": "8GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-msi-geforce-rtx-5060-8g-shadow-2x-oc-8gb-gddr7-28gbps-128-bit-pcie-5-boost-2535-hz-hdmi-2-1b-912-v537-038",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video MSI GeForce RTX 5060 8G Shadow 2X OC / 8GB / GDDR7 / 28Gbps / 128 bit / PCIe 5 / Boost: 2535 Hz / HDMI 2.1b / 912-V537-038",
+  "p": 7299.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-msi-geforce-rtx-5060-8g-shadow-2x-oc-8gb-gddr7-28gbps-128-bit-pcie-5-boost-2535-hz-hdmi-2-1b-912-v537-038?id=17724",
+  "specs": {
+   "marca": "MSI",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX5060",
+   "vram": "8G"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-nvidia-geforce-rtx-2060-12gb-gddr6-zotac-zt-t20620f-10m-2-anos-de-garantia-nacional",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video Nvidia GeForce RTX 2060 / 12GB GDDR6 / ZOTAC - ZT-T20620F-10M ​/ 2 AÑOS DE GARANTIA NACIONAL  /",
+  "p": 7999.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-nvidia-geforce-rtx-2060-12gb-gddr6-zotac-zt-t20620f-10m-2-anos-de-garantia-nacional?id=10790",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX2060",
+   "vram": "12GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-msi-nvidia-geforce-rtx-5060-ti-ventus-2x-oc-edition-8gb-128-bit-gddr7-blanco-pci-express-x16-5-0-912-v536-054",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video MSI NVIDIA GeForce RTX 5060 Ti VENTUS 2X OC Edition / 8GB / 128-bit GDDR7 / Blanco / PCI Express x16 5.0 / 912-V536-054",
+  "p": 8599.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-msi-nvidia-geforce-rtx-5060-ti-ventus-2x-oc-edition-8gb-128-bit-gddr7-blanco-pci-express-x16-5-0-912-v536-054?id=18474",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX5060TI",
+   "vram": "8GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-gigabyte-aorus-nvidia-geforce-rtx-5060-elite-8gb-128-bit-gddr7-pci-express-5-0-gv-n5060aorus-e-8gd",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video Gigabyte AORUS NVIDIA GeForce RTX 5060 ELITE / 8GB 128-bit GDDR7 / PCI Express 5.0 / GV-N5060AORUS E-8GD",
+  "p": 8999.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-gigabyte-aorus-nvidia-geforce-rtx-5060-elite-8gb-128-bit-gddr7-pci-express-5-0-gv-n5060aorus-e-8gd?id=18749",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX5060",
+   "vram": "8GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-gigabyte-nvidia-geforce-rtx-5060-ti-aero-oc-oc-edition-8gb-128-bit-gddr7-pci-express-5-0-sistema-de-refrigeracion-windforce-zt-b50620h-10m",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video Gigabyte NVIDIA GeForce RTX 5060 Ti Aero OC  OC Edition / 8GB / 128-bit GDDR7 / PCI Express 5.0 / Sistema de Refrigeración Windforce / ZT-B50620H-10M",
+  "p": 9699.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-gigabyte-nvidia-geforce-rtx-5060-ti-aero-oc-oc-edition-8gb-128-bit-gddr7-pci-express-5-0-sistema-de-refrigeracion-windforce-zt-b50620h-10m?id=17855",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX5060TI",
+   "vram": "8GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-gigabyte-nvidia-geforce-rtx-4060-ti-aero-oc-8g-8gb-128-bit-gddr6-pci-express-4-0-gv-n406taero-oc-8gd",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video Gigabyte NVIDIA GeForce RTX 4060 Ti AERO OC 8G / 8GB 128-bit GDDR6 / PCI Express 4.0 / GV-N406TAERO OC-8GD",
+  "p": 10699.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-gigabyte-nvidia-geforce-rtx-4060-ti-aero-oc-8g-8gb-128-bit-gddr6-pci-express-4-0-gv-n406taero-oc-8gd?id=13333",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX4060TI",
+   "vram": "8G"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-geforce-rtx-5060ti-zotac-twin-edge-oc-edition-16gb-128-bit-gddr7-pci-express-x8-5-0-zt-b50620q-10m",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video GeForce RTX 5060Ti ZOTAC TWIN EDGE OC Edition / 16GB 128-bit GDDR7 / PCI Express x8 / 5.0 / ZT-B50620Q-10M",
+  "p": 11999.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-geforce-rtx-5060ti-zotac-twin-edge-oc-edition-16gb-128-bit-gddr7-pci-express-x8-5-0-zt-b50620q-10m?id=18121",
+  "specs": {
+   "marca": "Zotac",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX5060TI",
+   "vram": "16GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-gigabyte-rtx-5070-eagle-oc-ice-sff-12gb-gddr7-192-bits-pcie-5-0-sistema-de-enfriamiento-windforce-gv-n5070eagleoc-ice-12gd-rtxs50",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video GIGABYTE RTX 5070 Eagle OC ICE SFF / 12GB GDDR7 / 192 bits / PCIe 5.0 / Sistema de Enfriamiento WINDFORCE / GV-N5070EAGLEOC ICE-12GD / RTXS50",
+  "p": 13999.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-gigabyte-rtx-5070-eagle-oc-ice-sff-12gb-gddr7-192-bits-pcie-5-0-sistema-de-enfriamiento-windforce-gv-n5070eagleoc-ice-12gd-rtxs50?id=17243",
+  "specs": {
+   "marca": "Gigabyte",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX5070",
+   "vram": "12GB"
+  }
+ },
+ {
+  "id": "tarjeta-video-msi-geforce-rtx-4070-super-ventus-oc-12gb-gddr6x-912-v513-641",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta Video MSI Geforce RTX 4070 SUPER VENTUS OC / 12GB GDDR6X / 912-V513-641",
+  "p": 14699.0,
+  "url": "https://ddtech.mx/producto/tarjeta-video-msi-geforce-rtx-4070-super-ventus-oc-12gb-gddr6x-912-v513-641?id=14691",
+  "specs": {
+   "marca": "MSI",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX4070SUPER",
+   "vram": "12GB"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-msi-nvidia-geforce-rtx-4070-ti-ventus-3x-12g-oc-12gb-192-bit-gddr6x-pci-express-4-0-912-v513-295",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video MSI NVIDIA GeForce RTX 4070 Ti VENTUS 3X 12G OC / 12GB 192-bit GDDR6X / PCI Express 4.0 / 912-V513-295",
+  "p": 15999.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-msi-nvidia-geforce-rtx-4070-ti-ventus-3x-12g-oc-12gb-192-bit-gddr6x-pci-express-4-0-912-v513-295?id=14107",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX4070TI",
+   "vram": "12G"
+  }
+ },
+ {
+  "id": "tarjeta-de-video-msi-nvidia-geforce-rtx-4070ti-super-16g-ventus-3x-oc-16gb-256-bit-gddr6x-pci-express-x16-4-0-912-v513-627-gratis-juego-star-wars-outlaws",
+  "cat": "Tarjetas de Video",
+  "nom": "Tarjeta de Video MSI NVIDIA GeForce RTX 4070Ti SUPER / 16G / VENTUS 3X OC / 16GB / 256-bit / GDDR6X / PCI Express x16 / 4.0 / 912-V513-627",
+  "p": 18999.0,
+  "url": "https://ddtech.mx/producto/tarjeta-de-video-msi-nvidia-geforce-rtx-4070ti-super-16g-ventus-3x-oc-16gb-256-bit-gddr6x-pci-express-x16-4-0-912-v513-627-gratis-juego-star-wars-outlaws?id=14695",
+  "specs": {
+   "marca": "Nvidia",
+   "especificaciones_encontradas": true,
+   "tipo": "Tarjeta de Video",
+   "arquitectura": "NVIDIA GeForce",
+   "chipset_gpu": "RTX4070TI",
+   "vram": "16G"
+  }
+ },
+ {
+  "id": "gabinete-evotec-oslo-cristal-mini-tower-micro-atx-mini-itx-usb-3-0-fuente-de-poder-500w-negro-ev-1023",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Evotec Oslo / Cristal / Mini-Tower, Micro-ATX/Mini-ITX / USB 3.0 / Fuente de Poder 500W / Negro / EV-1023",
+  "p": 499.0,
+  "url": "https://ddtech.mx/producto/gabinete-evotec-oslo-cristal-mini-tower-micro-atx-mini-itx-usb-3-0-fuente-de-poder-500w-negro-ev-1023?id=16674",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-vorago-start-the-game-csg-530-atx-micro-atx-itx-2-usb-1-0-2-usb-3-0-cristal-templado-sin-fuente-color-negro-csg-530",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Vorago Start The Game Csg-530 / Atx/micro Atx/itx / 2 Usb 1.0, 2 Usb 3.0 / Cristal Templado / Sin Fuente / Color Negro / CSG-530",
+  "p": 699.0,
+  "url": "https://ddtech.mx/producto/gabinete-vorago-start-the-game-csg-530-atx-micro-atx-itx-2-usb-1-0-2-usb-3-0-cristal-templado-sin-fuente-color-negro-csg-530?id=13688",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Micro-ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-msi-mag-shield-m301-midi-tower-micro-atx-mini-itx-usb-3-2-1-0-sin-fuente-1-ventilador-instalado-negro-mag-shield-m301",
+  "cat": "Gabinetes",
+  "nom": "Gabinete MSI MAG SHIELD M301, Midi-Tower, Micro-ATX/Mini-ITX / USB 3.2/1.0 / Sin Fuente / 1 Ventilador Instalado / Negro / MAG SHIELD M301",
+  "p": 799.0,
+  "url": "https://ddtech.mx/producto/gabinete-msi-mag-shield-m301-midi-tower-micro-atx-mini-itx-usb-3-2-1-0-sin-fuente-1-ventilador-instalado-negro-mag-shield-m301?id=13675",
+  "specs": {
+   "marca": "MSI",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-alseye-rams-1-0-micro-atx-mini-itx-usb-3-0-sin-fuente-sin-ventiladores-preinstalados-blanco-rams-1-0-white",
+  "cat": "Gabinetes",
+  "nom": "Gabinete ALSEYE RAMS 1.0 / Micro-ATX/Mini-ITX / USB 3.0 / Sin Fuente / Sin Ventiladores Preinstalados / Blanco / RAMS 1.0 WHITE",
+  "p": 899.0,
+  "url": "https://ddtech.mx/producto/gabinete-alseye-rams-1-0-micro-atx-mini-itx-usb-3-0-sin-fuente-sin-ventiladores-preinstalados-blanco-rams-1-0-white?id=18579",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-xzeal-xzgamc3b-mini-tower-micro-atx-mini-itx-usb-2-0-3-0-sin-fuente-3-ventiladores-instalados-negro-xzgamc3b",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Xzeal XZGAMC3B / Mini-Tower, Micro-ATX/Mini-ITX / USB 2.0/3.0 / Sin Fuente / 3 Ventiladores Instalados / Negro / XZGAMC3B",
+  "p": 899.0,
+  "url": "https://ddtech.mx/producto/gabinete-xzeal-xzgamc3b-mini-tower-micro-atx-mini-itx-usb-2-0-3-0-sin-fuente-3-ventiladores-instalados-negro-xzgamc3b?id=18142",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-acteck-doom-pro-mesh-gi730m-mini-itx-micro-atx-ventiladores-instalados-3x120mm-incluye-fuente-de-poder-600w-negro-ac-939249",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Acteck Doom Pro Mesh GI730M / Mini-ITX/Micro-ATX / Ventiladores Instalados 3x120mm / Incluye Fuente de Poder 600W / Negro / AC-939249",
+  "p": 999.0,
+  "url": "https://ddtech.mx/producto/gabinete-acteck-doom-pro-mesh-gi730m-mini-itx-micro-atx-ventiladores-instalados-3x120mm-incluye-fuente-de-poder-600w-negro-ac-939249?id=15646",
+  "specs": {
+   "marca": "Acteck",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-xpg-valor-air-mera-edition-midi-tower-atx-mini-itx-micro-atx-usb-3-2-sin-fuente-4-ventiladores-instalados-negro-coral-valorairmt-bk-ogcww",
+  "cat": "Gabinetes",
+  "nom": "Gabinete XPG Valor Air Mera Edition / Midi-Tower / ATX/Mini-ITX/Micro-ATX / USB 3.2 / Sin Fuente / 4 Ventiladores Instalados / Negro/Coral / VALORAIRMT-BK/OGCWW",
+  "p": 999.0,
+  "url": "https://ddtech.mx/producto/gabinete-xpg-valor-air-mera-edition-midi-tower-atx-mini-itx-micro-atx-usb-3-2-sin-fuente-4-ventiladores-instalados-negro-coral-valorairmt-bk-ogcww?id=14396",
+  "specs": {
+   "marca": "XPG",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-acteck-doom-pro-crystal-gi730-mini-tower-fuente-de-poder-600w-3x120mm-blanco-ac-939232",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Acteck Doom Pro Crystal GI730 / Mini-Tower / Fuente de Poder 600W / 3x120mm / Blanco / AC-939232",
+  "p": 1079.0,
+  "url": "https://ddtech.mx/producto/gabinete-acteck-doom-pro-crystal-gi730-mini-tower-fuente-de-poder-600w-3x120mm-blanco-ac-939232?id=15649",
+  "specs": {
+   "marca": "Acteck",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete"
+  }
+ },
+ {
+  "id": "gabinete-antec-cx300m-argb-mini-tower-micro-atx-itx-usb-2-0-3-0-sin-fuente-black-cx300m-argb-b",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Antec CX300M ARGB / Mini-Tower, Micro-ATX/ITX / USB 2.0/3.0 / Sin Fuente / Black / CX300M ARGB_B",
+  "p": 1199.0,
+  "url": "https://ddtech.mx/producto/gabinete-antec-cx300m-argb-mini-tower-micro-atx-itx-usb-2-0-3-0-sin-fuente-black-cx300m-argb-b?id=16512",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-gamer-xpg-invader-x-mini-cristal-templado-midi-tower-atx-micro-atx-mini-itx-usb-3-2-sin-fuente-5-ventiladores-instalados-blanco-invaderxminimt-whcww",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Gamer XPG INVADER X Mini / Cristal Templado / Midi Tower, ATX/micro ATX/Mini-ITX / USB 3.2 / Sin Fuente / 5 Ventiladores Instalados / Blanco / INVADERXMINIMT-WHCWW",
+  "p": 1199.0,
+  "url": "https://ddtech.mx/producto/gabinete-gamer-xpg-invader-x-mini-cristal-templado-midi-tower-atx-micro-atx-mini-itx-usb-3-2-sin-fuente-5-ventiladores-instalados-blanco-invaderxminimt-whcww?id=16337",
+  "specs": {
+   "marca": "XPG",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Micro-ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-deepcool-cg580-midi-tower-atx-micro-atx-mini-itx-usb-3-0-sin-fuente-negro-r-cg580-bknnda0-g-1",
+  "cat": "Gabinetes",
+  "nom": "Gabinete DeepCool CG580 / Midi-Tower / ATX/Micro-ATX/Mini-ITX / USB 3.0 / Sin Fuente / Negro / R-CG580-BKNNDA0-G-1",
+  "p": 1299.0,
+  "url": "https://ddtech.mx/producto/gabinete-deepcool-cg580-midi-tower-atx-micro-atx-mini-itx-usb-3-0-sin-fuente-negro-r-cg580-bknnda0-g-1?id=17307",
+  "specs": {
+   "marca": "Deepcool",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-gamer-cooler-master-elite-481-wood-micro-atx-mid-tower-cristal-templado-sin-ventiladores-negro-e481-khnn-s00",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Gamer Cooler Master Elite 481 Wood / Micro-ATX/Mid-Tower / Cristal Templado / Sin Ventiladores / Negro / E481-KHNN-S00",
+  "p": 1299.0,
+  "url": "https://ddtech.mx/producto/gabinete-gamer-cooler-master-elite-481-wood-micro-atx-mid-tower-cristal-templado-sin-ventiladores-negro-e481-khnn-s00?id=18612",
+  "specs": {
+   "marca": "Cooler master",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-aerocool-p500a-mid-tower-panel-panoramico-de-cristal-templado-4-ventiladores-argb-incluidos-usb-tipo-c-blanco-p500a-wt-v1",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Aerocool P500A / Mid Tower / Panel Panorámico de Cristal Templado / 4 Ventiladores ARGB Incluidos / USB Tipo-C / Blanco / P500A-WT-V1",
+  "p": 1399.0,
+  "url": "https://ddtech.mx/producto/gabinete-aerocool-p500a-mid-tower-panel-panoramico-de-cristal-templado-4-ventiladores-argb-incluidos-usb-tipo-c-blanco-p500a-wt-v1?id=18756",
+  "specs": {
+   "marca": "Aerocool",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete"
+  }
+ },
+ {
+  "id": "gabinete-gigabyte-c301-glass-atx-e-atx-micro-atx-mini-itx-cristal-templado-usb-3-0-usb-c-sin-fuente-4-ventiladores-instalados-argb-gb-c301g-navidad",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Gigabyte C301 GLASS / ATX/E-ATX/micro ATX/Mini-ITX / Cristal Templado / USB 3.0/USB-C / Sin Fuente / 4 Ventiladores Instalados ARGB / GB-C301G/",
+  "p": 1399.0,
+  "url": "https://ddtech.mx/producto/gabinete-gigabyte-c301-glass-atx-e-atx-micro-atx-mini-itx-cristal-templado-usb-3-0-usb-c-sin-fuente-4-ventiladores-instalados-argb-gb-c301g-navidad?id=12835",
+  "specs": {
+   "marca": "Gigabyte",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Micro-ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-xpg-valor-air-pro-mid-tower-e-atx-atx-micro-atx-4-ventiladores-argb-120mm-incluidos-cristal-templado-soporte-e-atx-negro-valorairpromta-bkcww",
+  "cat": "Gabinetes",
+  "nom": "Gabinete XPG VALOR AIR PRO / Mid-Tower / E-ATX/ATX/Micro-ATX / 4 Ventiladores ARGB 120mm Incluidos / Cristal Templado / Soporte E-ATX / Negro / VALORAIRPROMTA-BKCWW",
+  "p": 1399.0,
+  "url": "https://ddtech.mx/producto/gabinete-xpg-valor-air-pro-mid-tower-e-atx-atx-micro-atx-4-ventiladores-argb-120mm-incluidos-cristal-templado-soporte-e-atx-negro-valorairpromta-bkcww?id=18911",
+  "specs": {
+   "marca": "XPG",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-cougar-mx220-rgb-cristal-templado-midi-tower-mini-itx-micro-atx-atx-usb-3-0-2-0-sin-fuente-4-ventiladores-argb-instalados-negro-382ac80-0001",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Cougar MX220 / RGB / Cristal Templado / Midi-Tower, Mini-ITX/Micro-ATX/ATX / USB 3.0/2.0 / Sin Fuente / 4 Ventiladores ARGB Instalados / Negro / 382AC80.0001",
+  "p": 1499.0,
+  "url": "https://ddtech.mx/producto/gabinete-cougar-mx220-rgb-cristal-templado-midi-tower-mini-itx-micro-atx-atx-usb-3-0-2-0-sin-fuente-4-ventiladores-argb-instalados-negro-382ac80-0001?id=17420",
+  "specs": {
+   "marca": "Cougar",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-munfrost-polaris-cristal-templado-argb-atx-micro-atx-mini-itx-white-4-ventiladores-argb-incluidos-cgpolariswmft-barra-bifrost-de-regalo-munfgif",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Munfrost POLARIS / Cristal templado / ARGB / ATX-Micro ATX-Mini ITX / WHITE / 4 Ventiladores ARGB Incluidos / CGPOLARISWMFT/",
+  "p": 1499.0,
+  "url": "https://ddtech.mx/producto/gabinete-munfrost-polaris-cristal-templado-argb-atx-micro-atx-mini-itx-white-4-ventiladores-argb-incluidos-cgpolariswmft-barra-bifrost-de-regalo-munfgif?id=15447",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Micro-ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-cougar-airface-rgb-cristal-templado-midi-tower-mini-itx-micro-atx-atx-usb-3-0-2-0-sin-fuente-3-ventiladores-argb-instalados-blanco-385zd10-0005",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Cougar Airface / RGB / Cristal Templado / Midi-Tower, Mini-ITX/Micro-ATX/ATX / USB 3.0/2.0 / Sin Fuente / 3 Ventiladores ARGB Instalados / Blanco / 385ZD10.0005",
+  "p": 1599.0,
+  "url": "https://ddtech.mx/producto/gabinete-cougar-airface-rgb-cristal-templado-midi-tower-mini-itx-micro-atx-atx-usb-3-0-2-0-sin-fuente-3-ventiladores-argb-instalados-blanco-385zd10-0005?id=16800",
+  "specs": {
+   "marca": "Cougar",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-cooler-master-elite-502-midi-tower-atx-eatx-micro-atx-mini-itx-usb-3-0-sin-fuente-3-ventiladores-instalados-negro-e502-kgnn-s00",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Cooler Master ELITE 502 / Midi-Tower, ATX/EATX/Micro-ATX/Mini-ITX / USB 3.0 / Sin Fuente / 3 Ventiladores Instalados / Negro / E502-KGNN-S00",
+  "p": 1699.0,
+  "url": "https://ddtech.mx/producto/gabinete-cooler-master-elite-502-midi-tower-atx-eatx-micro-atx-mini-itx-usb-3-0-sin-fuente-3-ventiladores-instalados-negro-e502-kgnn-s00?id=17986",
+  "specs": {
+   "marca": "Cooler master",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-msi-mag-mpg-gungnir-210r-cristal-templado-atx-usb-3-2-incluye-4-ventiladores-sin-fuente-blanco-compatible-con-tarjetas-madre-back-connect-mpg-gungnir-210r-white",
+  "cat": "Gabinetes",
+  "nom": "Gabinete MSI MAG MPG GUNGNIR 210R / Cristal Templado / ATX / USB 3.2 / Incluye 4 Ventiladores / Sin Fuente / Blanco / Compatible Con Tarjetas Madre Back Connect / MPG GUNGNIR 210R WHITE",
+  "p": 1699.0,
+  "url": "https://ddtech.mx/producto/gabinete-msi-mag-mpg-gungnir-210r-cristal-templado-atx-usb-3-2-incluye-4-ventiladores-sin-fuente-blanco-compatible-con-tarjetas-madre-back-connect-mpg-gungnir-210r-white?id=17602",
+  "specs": {
+   "marca": "MSI",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-lian-li-lancool-207-atx-micro-atx-mini-itx-usb-3-2-sin-fuente-2-ventiladores-preinstalados-negro-lan207rx-black",
+  "cat": "Gabinetes",
+  "nom": "Gabinete LIAN LI LANCOOL 207 / ATX/Micro-ATX/Mini-ITX / USB 3.2 / Sin Fuente / 2 Ventiladores Preinstalados / Negro / LAN207RX BLACK",
+  "p": 1799.0,
+  "url": "https://ddtech.mx/producto/gabinete-lian-li-lancool-207-atx-micro-atx-mini-itx-usb-3-2-sin-fuente-2-ventiladores-preinstalados-negro-lan207rx-black?id=18520",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-antec-df800-flux-con-ventana-lateral-midi-tower-atx-mini-itx-micro-atx-usb-3-0-sin-fuente-5-ventiladores-instalados-blanco-df800-flux-white",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Antec DF800 Flux / Con Ventana Lateral / Midi-Tower, ATX/Mini-ITX/Micro-ATX / USB 3.0 / Sin Fuente / 5 Ventiladores Instalados / Blanco / DF800 FLUX WHITE",
+  "p": 1899.0,
+  "url": "https://ddtech.mx/producto/gabinete-antec-df800-flux-con-ventana-lateral-midi-tower-atx-mini-itx-micro-atx-usb-3-0-sin-fuente-5-ventiladores-instalados-blanco-df800-flux-white?id=15730",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-deepcool-cg580-4f-midi-tower-atx-micro-atx-mini-itx-usb-3-0-sin-fuente-4-ventiladores-instalados-blanco-r-cg5802-whada4-g-1",
+  "cat": "Gabinetes",
+  "nom": "Gabinete DeepCool CG580 4F / Midi-Tower, ATX/Micro-ATX/Mini-ITX / USB 3.0 / Sin Fuente / 4 Ventiladores Instalados / Blanco / R-CG5802-WHADA4-G-1",
+  "p": 1899.0,
+  "url": "https://ddtech.mx/producto/gabinete-deepcool-cg580-4f-midi-tower-atx-micro-atx-mini-itx-usb-3-0-sin-fuente-4-ventiladores-instalados-blanco-r-cg5802-whada4-g-1?id=17310",
+  "specs": {
+   "marca": "Deepcool",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-gamer-aerocool-interestellar-mid-tower-cristal-templado-atx-micro-atx-mini-itx-usb-3-0-sin-fuente-negro-interstellar-g-bk-v1",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Gamer Aerocool Interestellar / Mid-Tower / Cristal Templado / ATX/Micro Atx/mini-ITX / USB 3.0 / Sin Fuente / Negro / INTERSTELLAR-G-BK-V1",
+  "p": 1979.0,
+  "url": "https://ddtech.mx/producto/gabinete-gamer-aerocool-interestellar-mid-tower-cristal-templado-atx-micro-atx-mini-itx-usb-3-0-sin-fuente-negro-interstellar-g-bk-v1?id=16407",
+  "specs": {
+   "marca": "Aerocool",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Micro-ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-nzxt-h6-flow-white-cristal-templado-mini-itx-micro-atx-atx-usb-3-2-usb-3-2-gen-2-tipo-c-sin-fuente-blanco-3-ventiladores-sin-rgb-cc-h61fw-01-nzxtpromo",
+  "cat": "Gabinetes",
+  "nom": "Gabinete NZXT H6 FLOW WHITE / Cristal Templado / Mini-ITX / Micro-ATX / ATX / USB 3.2 / USB 3.2 Gen.2 Tipo C / Sin Fuente / Blanco / 3 Ventiladores sin RGB / CC-H61FW-01/ NZXTPROMO",
+  "p": 2069.0,
+  "url": "https://ddtech.mx/producto/gabinete-nzxt-h6-flow-white-cristal-templado-mini-itx-micro-atx-atx-usb-3-2-usb-3-2-gen-2-tipo-c-sin-fuente-blanco-3-ventiladores-sin-rgb-cc-h61fw-01-nzxtpromo?id=14002",
+  "specs": {
+   "marca": "NZXT",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-corsair-4000d-rs-midi-tower-atx-eatx-micro-atx-mini-itx-usb-3-0-sin-fuente-3-ventiladores-instalados-negro-cc-9011312-ww",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Corsair 4000D RS / Midi-Tower, ATX/EATX/Micro-ATX/Mini-ITX / USB 3.0 / Sin Fuente / 3 Ventiladores Instalados / Negro / CC-9011312-WW",
+  "p": 2199.0,
+  "url": "https://ddtech.mx/producto/gabinete-corsair-4000d-rs-midi-tower-atx-eatx-micro-atx-mini-itx-usb-3-0-sin-fuente-3-ventiladores-instalados-negro-cc-9011312-ww?id=17320",
+  "specs": {
+   "marca": "Corsair",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-antec-c5-argb-midi-tower-atx-itx-micro-atx-usb-2-0-3-0-sin-fuente-7-ventiladores-instalados-white-c5-argb-white",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Antec C5 ARGB / Midi-Tower, ATX/ITX/Micro-ATX / USB 2.0/3.0 / Sin Fuente / 7 Ventiladores Instalados / White / C5 ARGB WHITE",
+  "p": 2299.0,
+  "url": "https://ddtech.mx/producto/gabinete-antec-c5-argb-midi-tower-atx-itx-micro-atx-usb-2-0-3-0-sin-fuente-7-ventiladores-instalados-white-c5-argb-white?id=16492",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-antec-c8-full-tower-atx-itx-micro-atx-cristal-templado-usb-3-2-sin-fuente-sin-ventiladores-instalados-blanco-c8-white",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Antec C8 / Full Tower, ATX/ITX/micro ATX / Cristal Templado / USB 3.2 / Sin Fuente / Sin Ventiladores Instalados / Blanco / C8 WHITE",
+  "p": 2399.0,
+  "url": "https://ddtech.mx/producto/gabinete-antec-c8-full-tower-atx-itx-micro-atx-cristal-templado-usb-3-2-sin-fuente-sin-ventiladores-instalados-blanco-c8-white?id=16202",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Micro-ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-antec-c7-midi-tower-atx-e-atx-itx-micro-atx-4-ventiladores-incluidos-usb-2-0-3-0-sin-fuente-black-c7-argb",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Antec C7 / Midi-Tower, ATX/E-ATX/ITX/Micro-ATX / 4 Ventiladores Incluidos / USB 2.0/3.0 / Sin Fuente / Black / C7 ARGB",
+  "p": 2499.0,
+  "url": "https://ddtech.mx/producto/gabinete-antec-c7-midi-tower-atx-e-atx-itx-micro-atx-4-ventiladores-incluidos-usb-2-0-3-0-sin-fuente-black-c7-argb?id=16499",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-balam-rush-tank-expert-curve-6800-midi-tower-atx-micro-atx-itx-usb-2-0-3-0-sin-fuente-3-ventiladores-instalados-negro-br-941570",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Balam Rush Tank Expert Curve 6800 / Midi-Tower / ATX/Micro-ATX/ ITX / USB 2.0/3.0 / Sin Fuente / 3 Ventiladores Instalados / Negro / BR-941570",
+  "p": 2599.0,
+  "url": "https://ddtech.mx/producto/gabinete-balam-rush-tank-expert-curve-6800-midi-tower-atx-micro-atx-itx-usb-2-0-3-0-sin-fuente-3-ventiladores-instalados-negro-br-941570?id=17521",
+  "specs": {
+   "marca": "Balam rush",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-corsair-2500d-airflow-matx-diseno-de-doble-camara-sin-ventiladores-incluidos-amplia-flexibilidad-de-refrigeracion-compatible-con-tarjetas-negro-cc-9011263-ww",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Corsair 2500D Airflow / mATX / Diseño de Doble Cámara / Sin Ventiladores Incluidos / Amplia Flexibilidad de Refrigeración / Compatible con Tarjetas /  Negro / CC-9011263-WW",
+  "p": 2699.0,
+  "url": "https://ddtech.mx/producto/gabinete-corsair-2500d-airflow-matx-diseno-de-doble-camara-sin-ventiladores-incluidos-amplia-flexibilidad-de-refrigeracion-compatible-con-tarjetas-negro-cc-9011263-ww?id=15383",
+  "specs": {
+   "marca": "Corsair",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Micro-ATX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-hyte-y40-atx-mid-tower-2x-120mm-ventiladores-pre-instalados-cristal-templado-panoramico-moderno-y-estetico-con-cable-elevador-pcie-4-0-incluido-color-negro-con-blanco-cs-hyte-y40-bw",
+  "cat": "Gabinetes",
+  "nom": "Gabinete HYTE Y40 / ATX Mid Tower / 2x 120mm ventiladores pre instalados / Cristal Templado panorámico moderno y estético con cable elevador PCIE 4.0 incluido / Color Negro con Blanco / CS-HYTE-Y40-BW",
+  "p": 2799.0,
+  "url": "https://ddtech.mx/producto/gabinete-hyte-y40-atx-mid-tower-2x-120mm-ventiladores-pre-instalados-cristal-templado-panoramico-moderno-y-estetico-con-cable-elevador-pcie-4-0-incluido-color-negro-con-blanco-cs-hyte-y40-bw?id=12721",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-thermaltake-the-tower-300-micro-tower-micro-atx-mini-itx-usb-3-0-sin-fuente-2-ventiladores-instalados-hydrangea-blue-ca-1y4-00sfwn-00",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Thermaltake The Tower 300 / Micro-Tower, Micro-ATX/Mini-ITX / USB 3.0 / Sin Fuente / 2 Ventiladores Instalados / Hydrangea Blue / CA-1Y4-00SFWN-00",
+  "p": 2799.0,
+  "url": "https://ddtech.mx/producto/gabinete-thermaltake-the-tower-300-micro-tower-micro-atx-mini-itx-usb-3-0-sin-fuente-2-ventiladores-instalados-hydrangea-blue-ca-1y4-00sfwn-00?id=18839",
+  "specs": {
+   "marca": "Thermaltake",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-antec-c8-argb-full-tower-atx-e-atx-itx-micro-atx-usb-2-0-3-0-sin-fuente-3-ventiladores-instalados-white-c8-argb",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Antec C8 ARGB / Full-Tower, ATX/E-ATX/ITX/Micro-ATX / USB 2.0/3.0 / Sin Fuente / 3 Ventiladores Instalados / White / C8 ARGB",
+  "p": 2999.0,
+  "url": "https://ddtech.mx/producto/gabinete-antec-c8-argb-full-tower-atx-e-atx-itx-micro-atx-usb-2-0-3-0-sin-fuente-3-ventiladores-instalados-white-c8-argb?id=16494",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-hyte-x50-mid-tower-atx-eatx-micro-atx-mini-itx-1x-usb-3-2-gen-2x2-tipo-c-vidrio-acustico-laminado-wild-cherry-cs-hyte-x50g-rr",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Hyte X50 / Mid Tower, ATX/EATX/Micro-ATX/Mini-ITX / 1x USB 3.2 Gen 2x2 Tipo-C / Vidrio Acústico Laminado / Wild Cherry / CS-HYTE-X50G-RR",
+  "p": 2999.0,
+  "url": "https://ddtech.mx/producto/gabinete-hyte-x50-mid-tower-atx-eatx-micro-atx-mini-itx-1x-usb-3-2-gen-2x2-tipo-c-vidrio-acustico-laminado-wild-cherry-cs-hyte-x50g-rr?id=18382",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-thermaltake-the-tower-600-media-torre-cristal-templado-diseno-vertical-negro-ca-1z1-00m1wn-00",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Thermaltake The Tower 600 / Media Torre / Cristal Templado / Diseño Vertical / Negro / CA-1Z1-00M1WN-00",
+  "p": 3099.0,
+  "url": "https://ddtech.mx/producto/gabinete-thermaltake-the-tower-600-media-torre-cristal-templado-diseno-vertical-negro-ca-1z1-00m1wn-00?id=18782",
+  "specs": {
+   "marca": "Thermaltake",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete"
+  }
+ },
+ {
+  "id": "gabinete-be-quiet-light-base-900-dx-atx-eatx-micro-atx-mini-itx-ssi-ceb-xl-atx-usb-3-0-sin-fuente-sin-ventiladores-instalados-blanco-bgw69",
+  "cat": "Gabinetes",
+  "nom": "Gabinete be quiet! LIGHT BASE 900 DX / ATX/EATX/Micro-ATX/Mini-ITX/SSI-CEB/XL-ATX / USB 3.0 / Sin Fuente / Sin Ventiladores Instalados / Blanco / BGW69",
+  "p": 3209.0,
+  "url": "https://ddtech.mx/producto/gabinete-be-quiet-light-base-900-dx-atx-eatx-micro-atx-mini-itx-ssi-ceb-xl-atx-usb-3-0-sin-fuente-sin-ventiladores-instalados-blanco-bgw69?id=17212",
+  "specs": {
+   "marca": "Be quiet",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-in-win-monsters-robert-cristal-templado-midi-tower-atx-eatx-micro-atx-mini-itx-usb-3-2-sin-fuente-4-ventiladores-instalados-monsters-a-robert",
+  "cat": "Gabinetes",
+  "nom": "Gabinete In Win Monsters Robert / Cristal Templado / Midi-Tower, ATX/EATX/Micro-ATX/Mini-ITX / USB 3.2 / Sin Fuente / 4 Ventiladores Instalados / MONSTERS A ROBERT",
+  "p": 3399.0,
+  "url": "https://ddtech.mx/producto/gabinete-in-win-monsters-robert-cristal-templado-midi-tower-atx-eatx-micro-atx-mini-itx-usb-3-2-sin-fuente-4-ventiladores-instalados-monsters-a-robert?id=13791",
+  "specs": {
+   "marca": "Genérico",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Mini-ITX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-deepcool-cl6600-mid-tower-premium-cristal-templado-360mm-preinstalado-dual-camara-argb-atx-negro-r-cl6600-bknna0-g-1",
+  "cat": "Gabinetes",
+  "nom": "Gabinete DeepCool CL6600 / Mid Tower Premium / Cristal Templado / 360mm Preinstalado / Dual Cámara / ARGB / ATX / Negro / R-CL6600-BKNNA0-G-1",
+  "p": 3699.0,
+  "url": "https://ddtech.mx/producto/gabinete-deepcool-cl6600-mid-tower-premium-cristal-templado-360mm-preinstalado-dual-camara-argb-atx-negro-r-cl6600-bknna0-g-1?id=18464",
+  "specs": {
+   "marca": "Deepcool",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX"
+   ]
+  }
+ },
+ {
+  "id": "gabinete-thermaltake-ah-t200-turquesa-micro-atx-usb-3-0-cristal-templado-gamer-ca-1r4-00sbwn-00",
+  "cat": "Gabinetes",
+  "nom": "Gabinete Thermaltake AH T200 Turquesa / Micro ATX / USB 3.0 / Cristal Templado / Gamer / CA-1R4-00SBWN-00",
+  "p": 3999.0,
+  "url": "https://ddtech.mx/producto/gabinete-thermaltake-ah-t200-turquesa-micro-atx-usb-3-0-cristal-templado-gamer-ca-1r4-00sbwn-00?id=11732",
+  "specs": {
+   "marca": "Thermaltake",
+   "especificaciones_encontradas": true,
+   "tipo": "Gabinete",
+   "soporte_placas": [
+    "ATX",
+    "Micro-ATX"
+   ]
+  }
+ },
+ {
+  "id": "tarjeta-madre-biostar-a320mh-socket-am4-amd-a320-hdmi-up-to-32gb-ddr4-a320m",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre Biostar A320MH / Socket AM4 / AMD A320 / HDMI / Up to 32GB DDR4 / A320M",
+  "p": 799.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-biostar-a320mh-socket-am4-amd-a320-hdmi-up-to-32gb-ddr4-a320m?id=13328",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-asus-prime-h610m-k-d4-csm-micro-atx-lga-1700-intel-h610-hdmi-para-intel-prime-h610m-k-d4-csm",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre ASUS PRIME H610M-K D4 CSM / Micro-ATX / LGA 1700 / Intel H610 / HDMI para Intel / PRIME H610M-K D4-CSM",
+  "p": 1349.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-asus-prime-h610m-k-d4-csm-micro-atx-lga-1700-intel-h610-hdmi-para-intel-prime-h610m-k-d4-csm?id=18156",
+  "specs": {
+   "marca": "Intel",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-biostar-h510mh-e-socket-1200-intel-h510-micro-atx-hdmi-up-to-64gb-ddr4-h510m-e-2-0",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre Biostar H510MH E / Socket 1200 / Intel H510 / Micro ATX / HDMI / Up to 64GB DDR4 / H510M/E 2.0",
+  "p": 1499.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-biostar-h510mh-e-socket-1200-intel-h510-micro-atx-hdmi-up-to-64gb-ddr4-h510m-e-2-0?id=12305",
+  "specs": {
+   "marca": "Intel",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-gigabyte-h810m-k-micro-atx-lga-1851-intel-h810-up-to-128gb-ddr5-hdmi-dp-h810m-k",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre Gigabyte H810M K / Micro-ATX / LGA 1851 / Intel H810 / Up to 128GB DDR5 / HDMI/DP / H810M K",
+  "p": 1699.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-gigabyte-h810m-k-micro-atx-lga-1851-intel-h810-up-to-128gb-ddr5-hdmi-dp-h810m-k?id=18538",
+  "specs": {
+   "marca": "Intel",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-gigabyte-b760m-h-micro-atx-lga1700-b760-hdmi-up-to-128gb-ddr5-b760m-h",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre Gigabyte B760M H / Micro ATX / LGA1700 / B760 / HDMI / Up To 128GB DDR5 / B760M H",
+  "p": 2169.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-gigabyte-b760m-h-micro-atx-lga1700-b760-hdmi-up-to-128gb-ddr5-b760m-h?id=16462",
+  "specs": {
+   "marca": "Gigabyte",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-gigabyte-b650m-k-micro-atx-am5-amd-b650-up-to-128gb-ddr5-hdmi-dp-gigabyte-b650m-k-kids4ever",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre Gigabyte B650M K / Micro-ATX / AM5 / AMD B650 / Up to 128GB DDR5 / HDMI/DP/ GIGABYTE B650M K",
+  "p": 2399.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-gigabyte-b650m-k-micro-atx-am5-amd-b650-up-to-128gb-ddr5-hdmi-dp-gigabyte-b650m-k-kids4ever?id=18720",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-asus-micro-atx-prime-b650m-a-ii-csm-am5-amd-b650-hdmi-up-to-128gb-ddr5-prime-b650m-a-ii-csm",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre ASUS Micro-ATX PRIME B650M-A II-CSM / AM5 / AMD B650 / HDMI / Up to 128GB DDR5 / PRIME B650M-A II CSM",
+  "p": 2749.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-asus-micro-atx-prime-b650m-a-ii-csm-am5-amd-b650-hdmi-up-to-128gb-ddr5-prime-b650m-a-ii-csm?id=14390",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-asus-tuf-gaming-b550-plus-wifi-ii-socket-am4-amd-b550-atx-wi-fi-6-2-5gb-lan-aura-sync-b550-plus-wifi-ii-1",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre ASUS TUF GAMING B550-PLUS WIFI II / Socket AM4 / AMD B550 / ATX / Wi-Fi 6 / 2.5Gb LAN / Aura Sync / B550-PLUS WIFI II",
+  "p": 3099.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-asus-tuf-gaming-b550-plus-wifi-ii-socket-am4-amd-b550-atx-wi-fi-6-2-5gb-lan-aura-sync-b550-plus-wifi-ii-1?id=19169",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-asus-prime-b650m-a-wifi-ll-socket-am5-micro-atx-b650-hdmi-up-to-128gb-ddr5-prime-b650m-a-wifi-ii",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre ASUS PRIME B650M-A WIFI ll / Socket AM5 / Micro ATX / B650 / HDMI / Up to 128GB DDR5 / PRIME B650M-A WIFI II",
+  "p": 3499.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-asus-prime-b650m-a-wifi-ll-socket-am5-micro-atx-b650-hdmi-up-to-128gb-ddr5-prime-b650m-a-wifi-ii?id=13918",
+  "specs": {
+   "marca": "ASUS",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-gigabyte-b660m-gaming-x-ax-ddr4-socket-lga1700-intel-b660-atx-ddr4-intel-core-12th-generacion",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre Gigabyte B660M GAMING X AX DDR4 / Socket LGA1700 Intel B660 ATX / DDR4 / Intel Core 12th Generación",
+  "p": 3699.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-gigabyte-b660m-gaming-x-ax-ddr4-socket-lga1700-intel-b660-atx-ddr4-intel-core-12th-generacion?id=12302",
+  "specs": {
+   "marca": "Intel",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-asus-mini-itx-rog-strix-b760-i-gaming-wifi-socket-lga-1700-intel-b760-hdmi-64gb-ddr5-para-intel-rog-striix-b760-i-gaming-wifi",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre ASUS Mini ITX ROG STRIX B760-I GAMING WIFI / Socket LGA 1700 / Intel B760 / HDMI / 64GB DDR5 para Intel / ROG STRIIX B760-I GAMING WIFI",
+  "p": 4199.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-asus-mini-itx-rog-strix-b760-i-gaming-wifi-socket-lga-1700-intel-b760-hdmi-64gb-ddr5-para-intel-rog-striix-b760-i-gaming-wifi?id=13063",
+  "specs": {
+   "marca": "Intel",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-msi-pro-z890-s-wifi-white-atx-lga1851-z890-up-to-256gb-ddr5-hdmi-dp-z890-s-wifi-white",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre MSI PRO Z890-S WIFI WHITE / ATX / LGA1851 / Z890 / Up to 256GB DDR5 / HDMI/DP / Z890-S WIFI WHITE",
+  "p": 4499.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-msi-pro-z890-s-wifi-white-atx-lga1851-z890-up-to-256gb-ddr5-hdmi-dp-z890-s-wifi-white?id=17442",
+  "specs": {
+   "marca": "MSI",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-gigabyte-b650e-aorus-elite-x-ax-ice-atx-am5-amd-b650-up-to-256gb-ddr5-hdmi-b650e-a-elite-x-ice",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre Gigabyte B650E AORUS ELITE X AX ICE / ATX / AM5 / AMD B650 / Up to 256GB DDR5 / HDMI / B650E A ELITE X ICE",
+  "p": 4999.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-gigabyte-b650e-aorus-elite-x-ax-ice-atx-am5-amd-b650-up-to-256gb-ddr5-hdmi-b650e-a-elite-x-ice?id=16802",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": false
+  }
+ },
+ {
+  "id": "tarjeta-madre-gigabyte-z790-aorus-elite-ax-ice-lga1700-intel-z790-atx-ddr5-4-m-2-pcie-5-0-usb-3-2-2-5gbe-lan-q-flash-plus-z790-aorus-elite-ax-ice",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre Gigabyte Z790 AORUS Elite AX Ice / LGA1700 / Intel / Z790 / ATX / DDR5 / 4* M.2 / PCIe 5.0 / USB 3.2 / 2.5GbE LAN/Q-Flash Plus / Z790 AORUS Elite AX ICE",
+  "p": 5699.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-gigabyte-z790-aorus-elite-ax-ice-lga1700-intel-z790-atx-ddr5-4-m-2-pcie-5-0-usb-3-2-2-5gbe-lan-q-flash-plus-z790-aorus-elite-ax-ice?id=14672",
+  "specs": {
+   "marca": "Intel",
+   "especificaciones_encontradas": true,
+   "tipo": "Almacenamiento",
+   "formato": "SSD M.2 NVMe"
+  }
+ },
+ {
+  "id": "tarjeta-madre-asus-rog-strix-z790-a-gaming-wifi-d4-lga1700-atx-16-1-etapas-de-potencia-ddr4-ranuras-4xm-2-pcie-5-0-wifi-6e-usb-3-2-gen-2x2-type-c-con-pd-3-0-hasta-30w-rog-strix-z790-a-gaming-wifi-d4",
+  "cat": "Tarjetas Madre",
+  "nom": "Tarjeta Madre ASUS ROG Strix Z790-A Gaming WiFi D4 / LGA1700 ATX / 16+1 etapas de potencia / DDR4 / Ranuras 4xM.2 / PCIe 5.0 / WiFi 6E / USB 3.2 Gen 2x2 Type-C con PD 3.0 hasta 30W / ROG STRIX Z790-A GAMING WIFI D4",
+  "p": 6699.0,
+  "url": "https://ddtech.mx/producto/tarjeta-madre-asus-rog-strix-z790-a-gaming-wifi-d4-lga1700-atx-16-1-etapas-de-potencia-ddr4-ranuras-4xm-2-pcie-5-0-wifi-6e-usb-3-2-gen-2x2-type-c-con-pd-3-0-hasta-30w-rog-strix-z790-a-gaming-wifi-d4?id=12309",
+  "specs": {
+   "marca": "ASUS",
+   "especificaciones_encontradas": true,
+   "tipo": "Almacenamiento",
+   "formato": "SSD M.2 NVMe"
+  }
+ },
+ {
+  "id": "procesador-amd-a6-9500e-3-0ghz-turbo-3-4ghz-2-nucleos-4-hilos-socket-am4-ad9500ahabbox-compatible-solo-con-tarjetas-madre-am4-serie-300",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD A6 9500E 3.0GHz Turbo 3.4GHz 2 Nucleos 4 Hilos Socket AM4 / AD9500AHABBOX / Compatible SÓLO con tarjetas madre AM4 serie 300",
+  "p": 999.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-a6-9500e-3-0ghz-turbo-3-4ghz-2-nucleos-4-hilos-socket-am4-ad9500ahabbox-compatible-solo-con-tarjetas-madre-am4-serie-300?id=10020",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM4",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-5-3400g-4-nucleos-2mb-cache-incluye-disipador-yd3400c5fhsbx",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD Ryzen 5 3400G / 4 Núcleos / 2MB Caché / Incluye Disipador / YD3400C5FHSBX",
+  "p": 1599.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-5-3400g-4-nucleos-2mb-cache-incluye-disipador-yd3400c5fhsbx?id=18112",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "linea": "Ryzen 5",
+   "graficos_integrados": true
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-5-4600g-apu-3-7ghz-4-2ghz-6-core-12threads-am4-con-disipador-wraith-stealth-radeon-graphics-7-nucleos-integrada-100-100000147box",
+  "cat": "Procesadores",
+  "nom": "PROCESADOR AMD RYZEN 5 4600G APU 3.7GHZ / 4.2GHZ / 6 CORE 12Threads / AM4 / Con disipador Wraith Stealth / Radeon Graphics 7 Nucleos Integrada / 100-100000147BOX",
+  "p": 2069.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-5-4600g-apu-3-7ghz-4-2ghz-6-core-12threads-am4-con-disipador-wraith-stealth-radeon-graphics-7-nucleos-integrada-100-100000147box?id=11585",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM4",
+   "linea": "Ryzen 5",
+   "graficos_integrados": true
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-7-5700-4-6-ghz-8-nucleos-socket-am4-requiere-tarjeta-de-video-5000-series-100-100000743sbx",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD RYZEN 7 5700 / 4.6 GHZ / 8 Núcleos / Socket AM4 / Requiere Tarjeta de Video / 5000 Series /100-100000743SBX",
+  "p": 2769.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-7-5700-4-6-ghz-8-nucleos-socket-am4-requiere-tarjeta-de-video-5000-series-100-100000743sbx?id=14555",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM4",
+   "linea": "Ryzen 7",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-5-5600gt-4-6-ghz-6-nucleos-socket-am4-radeon-graphics-5000-series-100-100001488box",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD RYZEN 5 5600GT / 4.6 GHZ / 6 Núcleos / Socket AM4 / Radeon Graphics / 5000 Series / 100-100001488BOX",
+  "p": 2899.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-5-5600gt-4-6-ghz-6-nucleos-socket-am4-radeon-graphics-5000-series-100-100001488box?id=14553",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM4",
+   "linea": "Ryzen 5",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-7-5700g-apu-3-8ghz-4-6ghz-8-core-16threads-am4-con-disipador-wraith-stealth-radeon-graphics-8-nucleos-integrada-100-100000263box",
+  "cat": "Procesadores",
+  "nom": "PROCESADOR AMD RYZEN 7 5700G APU 3.8GHZ / 4.6GHZ / 8 CORE 16Threads / AM4 / Con disipador Wraith Stealth / Radeon Graphics 8 Nucleos Integrada / 100-100000263BOX",
+  "p": 3099.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-7-5700g-apu-3-8ghz-4-6ghz-8-core-16threads-am4-con-disipador-wraith-stealth-radeon-graphics-8-nucleos-integrada-100-100000263box?id=10072",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM4",
+   "linea": "Ryzen 7",
+   "graficos_integrados": true
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-5-7600-6-nucleos-3-8ghz-socket-am5-radeon-graphics-100-100001015box-7000-series",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD Ryzen 5 7600 / 6 Núcleos / 3.8GHz / Socket AM5 / Radeon Graphics / 100-100001015BOX / 7000 Series",
+  "p": 3699.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-5-7600-6-nucleos-3-8ghz-socket-am5-radeon-graphics-100-100001015box-7000-series?id=12367",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM5",
+   "linea": "Ryzen 5",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-5-7600x-socket-am5-4-7ghz-6-nucleos-12-hilos-graficos-integrados-requiere-disipador-100-100000593wof-7000-series",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD Ryzen 5 7600X / Socket AM5 / 4.7GHz / 6 núcleos / 12 hilos / Gráficos Integrados / REQUIERE DISIPADOR / 100-100000593WOF / 7000 Series /",
+  "p": 4299.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-5-7600x-socket-am5-4-7ghz-6-nucleos-12-hilos-graficos-integrados-requiere-disipador-100-100000593wof-7000-series?id=11976",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM5",
+   "linea": "Ryzen 5",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-7-8700f-4-1-ghz-octa-core-am5-requiere-tarjeta-de-video-100-100001590box",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD RYZEN 7 8700F / 4.1 GHz / Octa Core / AM5 / Requiere Tarjeta de Video / 100-100001590BOX",
+  "p": 4299.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-7-8700f-4-1-ghz-octa-core-am5-requiere-tarjeta-de-video-100-100001590box?id=15270",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM5",
+   "linea": "Ryzen 7",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-7-5700x3d-4-1-ghz-8-nucleos-socket-am4-requiere-tarjeta-de-video-5000-series-no-incluye-disipador-100-100001503wof",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD RYZEN 7 5700X3D / 4.1 GHZ / 8 Núcleos / Socket AM4 / Requiere Tarjeta de Video / 5000 Series / No incluye disipador / 100-100001503WOF/",
+  "p": 5299.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-7-5700x3d-4-1-ghz-8-nucleos-socket-am4-requiere-tarjeta-de-video-5000-series-no-incluye-disipador-100-100001503wof?id=14552",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM4",
+   "linea": "Ryzen 7",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-7-7700x-socket-am5-4-5ghz-8-nucleos-16-hilos-graficos-integrados-requiere-disipador-100-100000591wof-7000-series",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD Ryzen 7 7700X / Socket AM5 / 4.5GHz / 8 núcleos 16 hilos / Gráficos Integrados / REQUIERE DISIPADOR / 100-100000591WOF / 7000 Series",
+  "p": 5499.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-7-7700x-socket-am5-4-5ghz-8-nucleos-16-hilos-graficos-integrados-requiere-disipador-100-100000591wof-7000-series?id=11977",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM5",
+   "linea": "Ryzen 7",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-9-5900xt-16-core-32-thread-3-3ghz-4-8ghz-boost-am4-tdp-105w-requiere-tarjeta-de-video-requiere-disipador-100-100001581wof",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD Ryzen 9 5900XT / 16 Core / 32 Thread / 3.3GHz / 4.8GHz Boost / AM4 / TDP 105W / Requiere Tarjeta de Video / Requiere Disipador / 100-100001581WOF",
+  "p": 6299.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-9-5900xt-16-core-32-thread-3-3ghz-4-8ghz-boost-am4-tdp-105w-requiere-tarjeta-de-video-requiere-disipador-100-100001581wof?id=15610",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM4",
+   "linea": "Ryzen 9",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-7-7800x3d-5-0-ghz-8-nucleos-socket-am5-amd-radeon-graphics-100-100000910wof",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD Ryzen 7 7800X3D / 5.0 GHZ / 8 Núcleos / Socket AM5 / AMD Radeon Graphics / 100-100000910WOF",
+  "p": 7999.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-7-7800x3d-5-0-ghz-8-nucleos-socket-am5-amd-radeon-graphics-100-100000910wof?id=12880",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM5",
+   "linea": "Ryzen 7",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-7-9850x3d-con-amd-radeon-graphics-am5-5-6ghz-8-nucleos-96mb-cache-no-incluye-disipador-100-100001973wof",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD Ryzen 7 9850X3D / Con AMD Radeon Graphics / AM5 / 5.6GHz / 8 Núcleos / 96MB Caché / No incluye Disipador / 100-100001973WOF",
+  "p": 9699.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-7-9850x3d-con-amd-radeon-graphics-am5-5-6ghz-8-nucleos-96mb-cache-no-incluye-disipador-100-100001973wof?id=19106",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM5",
+   "linea": "Ryzen 7",
+   "graficos_integrados": false
+  }
+ },
+ {
+  "id": "procesador-amd-ryzen-9-9950x-16-core-32-thread-5-7ghz-boost-am5-tdp-170w-amd-radeon-graphics-requiere-disipador-requiere-actualizar-tarjeta-madre-100-100001277wof",
+  "cat": "Procesadores",
+  "nom": "Procesador AMD Ryzen 9 9950X / 16 Core / 32 Thread / 5.7GHz Boost / AM5 / TDP 170W / AMD Radeon™ Graphics / Requiere Disipador / Requiere Actualizar Tarjeta Madre / 100-100001277WOF",
+  "p": 11499.0,
+  "url": "https://ddtech.mx/producto/procesador-amd-ryzen-9-9950x-16-core-32-thread-5-7ghz-boost-am5-tdp-170w-amd-radeon-graphics-requiere-disipador-requiere-actualizar-tarjeta-madre-100-100001277wof?id=15673",
+  "specs": {
+   "marca": "AMD",
+   "especificaciones_encontradas": true,
+   "tipo": "Procesador",
+   "socket": "AM5",
+   "linea": "Ryzen 9",
+   "graficos_integrados": false
+  }
+ }
+]
+```
+
+INSTRUCCIONES DE RESPUESTA:
+Presenta tu respuesta en formato Markdown elegante con la siguiente estructura:
+1. **Resumen de la Configuración**: Tabla con Categoría, Nombre del componente, Enlace de compra (usar la URL exacta del JSON), y Precio en MXN.
+2. **Costo Total**: El total exacto de la suma de los componentes elegidos en pesos mexicanos (MXN) y cuánto presupuesto sobró.
+3. **Justificación Técnica**: Explica brevemente por qué elegiste estos componentes específicos para el uso de 'Estación de trabajo pesada de desarrollo de software. Debe poder ejecutar simultáneamente múltiples instancias de Visual Studio, SQL Server Management Studio, contenedores de Docker, múltiples navegadores (Firefox, Chrome, Edge) con pestañas pesadas, consolas de comandos, Opencode y ejecución de Modelos de IA Locales (Ollama, LLaMA) que requieren aceleración por hardware CUDA. Se busca una RTX 5060 Ti de 16GB VRAM y 32GB de RAM DDR5 con posibilidad de expandir a 64GB en el futuro.' y cómo aseguraste la compatibilidad física entre ellos (Sockets, memorias DDR, wattage de fuente, etc.).
+4. **Ruta de Mejora Futura (Upgrade)**: Qué componente le recomendarías cambiar primero si en el futuro quiere mejorar su PC.

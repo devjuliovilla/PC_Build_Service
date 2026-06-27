@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8000
+@buildId = 1
+
+POST {{baseUrl}}/builds/{{buildId}}/snapshot

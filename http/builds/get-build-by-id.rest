@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8000
+@buildId = 1
+
+GET {{baseUrl}}/builds/{{buildId}}

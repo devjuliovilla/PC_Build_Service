@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8000
+@jobId = replace-with-job-id
+
+GET {{baseUrl}}/jobs/{{jobId}}

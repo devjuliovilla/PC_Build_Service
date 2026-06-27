@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:8000
+@buildId = 1
+
+POST {{baseUrl}}/builds/{{buildId}}/slots
+Content-Type: application/json
+
+{
+  "slot": "CPU",
+  "component_id": "sample-component-id",
+  "is_locked": false,
+  "notes": "Seleccion inicial del procesador"
+}

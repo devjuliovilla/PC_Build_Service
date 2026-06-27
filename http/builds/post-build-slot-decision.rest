@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:8000
+@buildId = 1
+@slot = CPU
+
+POST {{baseUrl}}/builds/{{buildId}}/slots/{{slot}}/decisions
+Content-Type: application/json
+
+{
+  "reason": "Buena relacion precio-rendimiento para gaming"
+}

@@ -1,0 +1,15 @@
+services:
+  ddtech-api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_PATH: /data/ddtech.db
+      EXPORT_JSON_PATH: /data/ddtech_components.json
+      HEADLESS: "true"
+      PLAYWRIGHT_TIMEOUT: "45000"
+      LOG_LEVEL: INFO
+      HOST: 0.0.0.0
+      PORT: "8000"
+    volumes:
+      - ./data:/data

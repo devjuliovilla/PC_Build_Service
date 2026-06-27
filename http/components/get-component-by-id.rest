@@ -1,0 +1,4 @@
+@baseUrl = http://localhost:8000
+@componentId = sample-component-id
+
+GET {{baseUrl}}/components/{{componentId}}

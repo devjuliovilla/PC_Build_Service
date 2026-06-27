@@ -1,0 +1,23 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environments
+.env
+venv/
+ENV/
+env/
+
+# Local generated files (PNG screenshots not needed)
+*.png
+
+# Runtime data
+data/*.db
+data/*.json
+
+# Docker / local env
+.env.local
+
+docs/

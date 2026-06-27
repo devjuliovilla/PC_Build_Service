@@ -1,0 +1,5 @@
+@baseUrl = http://localhost:8000
+@buildId = 1
+@slot = CPU
+
+GET {{baseUrl}}/builds/{{buildId}}/slots/{{slot}}/decisions

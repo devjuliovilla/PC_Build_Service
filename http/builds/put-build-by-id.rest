@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:8000
+@buildId = 1
+
+PUT {{baseUrl}}/builds/{{buildId}}
+Content-Type: application/json
+
+{
+  "name": "Build Gaming 1440p Actualizada",
+  "description": "Build editada desde archivo REST",
+  "is_active": true
+}
