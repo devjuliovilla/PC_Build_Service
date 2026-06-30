@@ -224,32 +224,39 @@ El contenedor:
 - arranca unicamente la API FastAPI
 - no ejecuta scraping automaticamente al iniciar
 
-## Probar Localmente Con Docker
+## Interfaz Web (Angular)
 
-Construir y levantar el servicio:
+El proyecto incluye una interfaz web construida con Angular 21.2.1, ubicada en `pc-builder-service-ui/`.
+
+### Prerequisitos
+
+Antes de levantar la UI, asegúrate de que el archivo `.npmrc` en `pc-builder-service-ui/` tenga configurado el token de acceso a GitHub Packages:
+
+```
+//npm.pkg.github.com/:_authToken=TOKEN_AQUI
+@devjuliovilla:registry=https://npm.pkg.github.com/
+```
+
+### Modo Desarrollo (Hot Reload)
+
+Levanta la UI con hot reload en `http://localhost:4200/`:
+
+```powershell
+docker compose up ui-dev
+```
+
+Esto monta `./pc-builder-service-ui` como bind mount dentro del contenedor, instala dependencias y arranca `ng serve` con polling para detectar cambios en Windows. Cualquier modificación en los archivos se refleja automáticamente.
+
+### Modo Producción
+
+La UI se sirve via nginx en el puerto `8080`. Se construye junto con la API:
 
 ```powershell
 docker compose up --build
 ```
 
-Construir y levantar en segundo plano:
-
-```powershell
-docker compose up --build -d
-```
-
-Detener el servicio:
-
-```powershell
-docker compose down
-```
-
-Una vez arriba, puedes probar:
-
-- `http://localhost:8000/`
-- `http://localhost:8000/docs`
-- `http://localhost:8000/health`
-- `http://localhost:8000/status`
+- API: `http://localhost:8000/`
+- UI: `http://localhost:8080/`
 
 ## Persistencia Fuera Del Contenedor
 

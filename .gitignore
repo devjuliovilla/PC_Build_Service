@@ -21,3 +21,4 @@ data/*.json
 .env.local
 
 docs/
+json-files/

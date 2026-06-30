@@ -61,5 +61,9 @@ class JobResponse(BaseModel):
     error: str | None = None
 
 
+class BulkSlotsRequest(BaseModel):
+    slots: dict[str, str] = Field(description="Map of slot name to component ID")
+
+
 class GenericDictResponse(BaseModel):
     data: dict[str, Any]

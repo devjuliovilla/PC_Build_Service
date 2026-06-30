@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Response, status
 
 from app.api.dependencies import build_service
-from app.api.schemas import BuildCreate, BuildUpdate, DecisionCreate, SlotUpdate, SlotUpsert
+from app.api.schemas import BuildCreate, BuildUpdate, BulkSlotsRequest, DecisionCreate, SlotUpdate, SlotUpsert
 
 
 router = APIRouter(tags=["builds"])
@@ -47,6 +47,18 @@ def create_slot(build_id: int, payload: SlotUpsert):
     if not slot:
         raise HTTPException(status_code=404, detail="Build or component not found")
     return slot
+
+
+@router.put("/builds/{build_id}/slots/bulk")
+def bulk_slots(build_id: int, payload: BulkSlotsRequest):
+    results = []
+    for slot, component_id in payload.slots.items():
+        slot_data = build_service.save_slot(build_id, slot, component_id)
+        if slot_data:
+            results.append(slot_data)
+    if not results:
+        raise HTTPException(status_code=404, detail="Build or components not found")
+    return results
 
 
 @router.put("/builds/{build_id}/slots/{slot}")

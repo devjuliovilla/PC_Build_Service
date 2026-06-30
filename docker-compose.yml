@@ -1,10 +1,12 @@
 name: pc_build_service
 
 services:
-  pc-build-service:
+  api:
     image: pc_build_service:latest
-    container_name: pc_build_service
-    build: .
+    container_name: pc_build_api
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -18,3 +20,34 @@ services:
       PORT: "8000"
     volumes:
       - ./data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  ui:
+    image: pc_builder_ui:latest
+    container_name: pc_builder_ui
+    build:
+      context: ./pc-builder-service-ui
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+  ui-dev:
+    image: node:22-alpine
+    container_name: pc_builder_ui_dev
+    working_dir: /app
+    volumes:
+      - ./pc-builder-service-ui:/app
+    ports:
+      - "4200:4200"
+    command: sh -c "npm install && npx ng serve --host 0.0.0.0 --poll 2000"
+    depends_on:
+      api:
+        condition: service_healthy
